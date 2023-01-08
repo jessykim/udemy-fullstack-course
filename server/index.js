@@ -1,37 +1,29 @@
 import express from 'express'
+import mongoose from 'mongoose'
+import cookieSession from 'cookie-session'
 import passport from 'passport'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+
+import './models/User.js'
+import './services/passport.js'
+
+import authRoutes from './routes/authRoutes.js'
 import * as keys from './config/keys.js'
+
+mongoose.connect(keys.mongoURI)
 
 const app = express()
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback'
-    },
-    (accessToken, refreshToken, profile, done) => {
-      console.log('access token', accessToken)
-      console.log('refresh token', refreshToken)
-      console.log('profile', profile)
-      console.log('done', done)
-    }
-  )
-)
-
-app.get(
-  '/auth/google', 
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
   })
 )
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google')
-)
+app.use(passport.initialize())
+app.use(passport.session())
+
+authRoutes(app)
 
 const PORT = process.env.PORT || 5050
 app.listen(PORT)
