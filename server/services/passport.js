@@ -1,7 +1,7 @@
-import passport from 'passport'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
-import mongoose from 'mongoose'
-import selectedKeys from '../config/keys.js'
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose');
+const keys = require('../config/keys');
 
 const User = mongoose.model('users')
 
@@ -19,8 +19,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: selectedKeys.googleClientID,
-      clientSecret: selectedKeys.googleClientSecret,
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       proxy: true
     },

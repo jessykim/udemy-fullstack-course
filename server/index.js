@@ -1,29 +1,29 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import cookieSession from 'cookie-session'
-import passport from 'passport'
+const express = require('express');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 
-import './models/User.js'
-import './services/passport.js'
+require('./models/User');
+require('./services/passport');
 
-import authRoutes from './routes/authRoutes.js'
-import selectedKeys from './config/keys.js'
 
-mongoose.connect(selectedKeys.mongoURI)
+const keys = require('./config/keys');
+
+mongoose.connect(keys.mongoURI)
 
 const app = express()
 
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [selectedKeys.cookieKey]
+    keys: [keys.cookieKey]
   })
 )
 
 app.use(passport.initialize())
 app.use(passport.session())
 
-authRoutes(app)
+require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 5050
 app.listen(PORT, () => {
