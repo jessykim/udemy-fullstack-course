@@ -26,4 +26,6 @@ app.use(passport.session())
 authRoutes(app)
 
 const PORT = process.env.PORT || 5050
-app.listen(PORT)
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`)
+})
