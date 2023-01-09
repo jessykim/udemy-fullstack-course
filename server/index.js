@@ -7,16 +7,16 @@ import './models/User.js'
 import './services/passport.js'
 
 import authRoutes from './routes/authRoutes.js'
-import * as keys from './config/keys.js'
+import selectedKeys from './config/keys.js'
 
-mongoose.connect(keys.mongoURI)
+mongoose.connect(selectedKeys.mongoURI)
 
 const app = express()
 
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey]
+    keys: [selectedKeys.cookieKey]
   })
 )
 
