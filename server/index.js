@@ -41,3 +41,15 @@ const PORT = process.env.PORT || 5050
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)
 })
+
+// process.on('SIGINT', function() {
+//   console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
+//   // some other closing procedures go here
+//   server.close(() => {
+//     console.log('Http server closed.')
+//     mongoose.connection.close(false, () => {
+//       console.log('MongoDb connection closed.')
+//       process.exit(0)
+//     })
+//   });
+// })
