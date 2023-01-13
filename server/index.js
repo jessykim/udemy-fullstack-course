@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser')
 
 require('./models/User');
 require('./models/Survey')
@@ -12,6 +13,8 @@ const keys = require('./config/keys');
 mongoose.connect(keys.mongoURI)
 
 const app = express()
+
+app.use(bodyParser.json())
 
 app.use(
   cookieSession({
@@ -41,15 +44,3 @@ const PORT = process.env.PORT || 5050
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)
 })
-
-// process.on('SIGINT', function() {
-//   console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
-//   // some other closing procedures go here
-//   server.close(() => {
-//     console.log('Http server closed.')
-//     mongoose.connection.close(false, () => {
-//       console.log('MongoDb connection closed.')
-//       process.exit(0)
-//     })
-//   });
-// })
