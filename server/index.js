@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
+const passport = require('passport');
 const bodyParser = require('body-parser')
 
 require('./models/User');
 require('./models/Survey')
 require('./services/passport');
 
-const passport = require('passport');
 const keys = require('./config/keys');
 
 mongoose.connect(keys.mongoURI)
