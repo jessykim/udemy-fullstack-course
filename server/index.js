@@ -10,12 +10,19 @@ require('./services/passport');
 
 const keys = require('./config/keys');
 
-mongoose.connect(keys.mongoURI)
+mongoose.set('strictQuery', false)
+mongoose.connect(keys.mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+mongoose.Promise = global.Promise
+mongoose.connection.on('error', (err) => {
+  console.error(`${err.message}`)
+})
 
 const app = express()
 
 app.use(bodyParser.json())
-
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
